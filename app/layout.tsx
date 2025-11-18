@@ -32,9 +32,7 @@ export default function RootLayout({
         <MixpanelProvider>
           {children}
         </MixpanelProvider>
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-        )}
+        <GoogleAnalytics gaId="G-6XGH4BVL74" />
       </body>
     </html>
   );
