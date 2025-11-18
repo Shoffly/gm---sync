@@ -12,7 +12,13 @@ declare global {
 
 // Extract Google Analytics cookies and IDs
 function getGoogleAnalyticsIds() {
-  if (typeof document === 'undefined') return {};
+  if (typeof document === 'undefined') return {
+    ga_client_id: null,
+    ga_cookie: null,
+    ga_session_id: null,
+    gclid: null,
+    ga_cookies: {},
+  };
   
   const cookies = document.cookie.split(';').reduce((acc, cookie) => {
     const [key, value] = cookie.trim().split('=');
@@ -43,7 +49,49 @@ function getGoogleAnalyticsIds() {
 
 // Get comprehensive device and browser properties
 function getEnhancedProperties() {
-  if (typeof window === 'undefined') return {};
+  if (typeof window === 'undefined') return {
+    ga_client_id: null,
+    ga_cookie: null,
+    ga_session_id: null,
+    gclid: null,
+    ga_cookies: {},
+    ga_measurement_id: 'G-6XGH4BVL74',
+    screen_width: 0,
+    screen_height: 0,
+    viewport_width: 0,
+    viewport_height: 0,
+    pixel_ratio: 1,
+    color_depth: 24,
+    user_agent: '',
+    language: '',
+    languages: '',
+    platform: '',
+    vendor: '',
+    connection_type: null,
+    connection_downlink: null,
+    connection_rtt: null,
+    connection_save_data: null,
+    device_memory: null,
+    hardware_concurrency: 0,
+    timezone: '',
+    timezone_offset: 0,
+    timestamp: Date.now(),
+    page_url: '',
+    page_path: '',
+    page_search: '',
+    page_hash: '',
+    page_host: '',
+    page_protocol: '',
+    page_title: '',
+    referrer: '',
+    touch_support: false,
+    max_touch_points: 0,
+    cookies_enabled: false,
+    local_storage_available: false,
+    session_storage_available: false,
+    online: false,
+    random_id: 0,
+  };
   
   const gaIds = getGoogleAnalyticsIds();
   
