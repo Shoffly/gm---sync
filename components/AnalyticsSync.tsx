@@ -5,7 +5,6 @@ import mixpanel from '@/lib/mixpanel';
 
 declare global {
   interface Window {
-    dataLayer?: any[];
     gtag?: (...args: any[]) => void;
     originalGtag?: (...args: any[]) => void;
   }
