@@ -193,7 +193,7 @@ export default function Home() {
         <div className="flex flex-col gap-8">
           <div>
             <h1 className="text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50 mb-4">
-              Analytics Sync Dashboard
+              Analytics Sync Test
             </h1>
             <p className="text-lg leading-8 text-zinc-600 dark:text-zinc-400">
               Real-time tracking of Mixpanel and Google Analytics events
