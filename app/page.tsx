@@ -3,15 +3,28 @@
 import Image from "next/image";
 import mixpanel from "@/lib/mixpanel";
 
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
+
 export default function Home() {
   const handleButtonClick = () => {
-    // Example: Track an event with Mixpanel
-    if (process.env.NEXT_PUBLIC_MIXPANEL_TOKEN) {
-      mixpanel.track('Button Clicked', {
+    // Example: Track with Google Analytics (will auto-sync to Mixpanel)
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'button_click', {
         button_name: 'Deploy Now',
         page: 'home',
+        value: 1,
       });
     }
+    
+    // You can also track directly to Mixpanel if needed
+    mixpanel.track('Button Clicked', {
+      button_name: 'Deploy Now',
+      page: 'home',
+    });
   };
 
   return (

@@ -1,34 +1,63 @@
 # Analytics Setup Guide
 
-This Next.js project is configured with Mixpanel and Google Analytics.
+This Next.js project is configured with **Mixpanel** and **Google Analytics 4** with **automatic event syncing**.
 
-## Environment Variables
+## 🔄 Automatic Sync Feature
 
-Create a `.env.local` file in the root directory with the following variables:
+All Google Analytics events are **automatically forwarded to Mixpanel**! When you track an event with `gtag()`, it will be sent to both platforms:
 
-```env
-# Mixpanel Configuration
-# Get your token from https://mixpanel.com/project/settings
-NEXT_PUBLIC_MIXPANEL_TOKEN=your_mixpanel_token_here
+- **Google Analytics**: Original event tracking
+- **Mixpanel**: Same event with `GA:` prefix and `source: 'google_analytics'` property
 
-# Google Analytics Configuration
-# Get your Measurement ID from https://analytics.google.com/
-# Format: G-XXXXXXXXXX
-NEXT_PUBLIC_GA_ID=your_google_analytics_id_here
-```
+## Configuration
+
+Your analytics are already configured with:
+- **Mixpanel Token**: `b6171b0def7259325e6f2d3181df6d96`
+- **Google Analytics ID**: `G-6XGH4BVL74`
+
+No additional environment variables needed!
 
 ## How to Use
 
-### Mixpanel
+### Option 1: Track with Google Analytics (Recommended - Auto-syncs to Mixpanel!)
 
-Import and use Mixpanel in any client component:
+```tsx
+'use client';
+
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
+
+// Track an event - goes to BOTH GA and Mixpanel automatically!
+window.gtag('event', 'button_click', {
+  button_name: 'Deploy Now',
+  page: 'home',
+  value: 1,
+});
+
+// Track page view
+window.gtag('config', 'G-6XGH4BVL74', {
+  page_path: '/custom-page',
+  page_title: 'Custom Page',
+});
+
+// Set user ID
+window.gtag('set', {
+  user_id: 'user-123',
+  user_type: 'premium',
+});
+```
+
+### Option 2: Track Directly to Mixpanel Only
 
 ```tsx
 'use client';
 
 import mixpanel from '@/lib/mixpanel';
 
-// Track an event
+// Track an event (Mixpanel only)
 mixpanel.track('Event Name', {
   property1: 'value1',
   property2: 'value2',
@@ -44,30 +73,22 @@ mixpanel.people.set({
 });
 ```
 
-### Google Analytics
+## What Gets Synced to Mixpanel?
 
-Google Analytics is automatically initialized when `NEXT_PUBLIC_GA_ID` is set. It will track page views automatically.
+When you use Google Analytics `gtag()`, the following are automatically synced:
 
-For custom events, you can use the `gtag` function:
+1. **Custom Events** (`gtag('event', ...)`)
+   - Synced as: `GA: {event_name}`
+   - All event parameters are included
+   - Added property: `source: 'google_analytics'`
 
-```tsx
-'use client';
+2. **Page Views** (`gtag('config', ...)`)
+   - Synced as: `Page View`
+   - Includes: `page_path`, `page_location`, `page_title`
 
-declare global {
-  interface Window {
-    gtag: (
-      command: string,
-      targetId: string,
-      config?: Record<string, any>
-    ) => void;
-  }
-}
-
-// Track an event
-window.gtag('event', 'button_click', {
-  button_name: 'Deploy Now',
-});
-```
+3. **User Properties** (`gtag('set', ...)`)
+   - Synced to Mixpanel user profile
+   - Automatically identifies user if `user_id` is set
 
 ## Running the Project
 

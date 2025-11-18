@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import MixpanelProvider from "@/components/MixpanelProvider";
+import AnalyticsSync from "@/components/AnalyticsSync";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
           {children}
         </MixpanelProvider>
         <GoogleAnalytics gaId="G-6XGH4BVL74" />
+        <AnalyticsSync />
       </body>
     </html>
   );
