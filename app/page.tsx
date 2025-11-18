@@ -1,6 +1,19 @@
+'use client';
+
 import Image from "next/image";
+import mixpanel from "@/lib/mixpanel";
 
 export default function Home() {
+  const handleButtonClick = () => {
+    // Example: Track an event with Mixpanel
+    if (process.env.NEXT_PUBLIC_MIXPANEL_TOKEN) {
+      mixpanel.track('Button Clicked', {
+        button_name: 'Deploy Now',
+        page: 'home',
+      });
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
@@ -40,6 +53,7 @@ export default function Home() {
             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={handleButtonClick}
           >
             <Image
               className="dark:invert"
